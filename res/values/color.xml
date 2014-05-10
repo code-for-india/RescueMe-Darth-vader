@@ -3,5 +3,7 @@
     <color name="shakti_white">#F1F2F2</color>
     <color name="shakti_blue">#37B5E3</color>
     <color name="shakti_black">#000000</color>
+    <color name="body_bg">#FF6900</color>
+    <color name="body_red">#DF382C</color>
     
 </resources>

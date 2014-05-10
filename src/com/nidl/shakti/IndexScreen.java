@@ -90,6 +90,10 @@ public class IndexScreen extends Activity {
 		turn_on.setTypeface(typeface);
 		turn_on.setOnClickListener(listener);
 		
+		Button emergency = (Button) this.findViewById(R.id.emergency);
+		emergency.setOnClickListener(listener);
+		emergency.setTypeface(typeface);
+		
 		turn_layout = (LinearLayout)this.findViewById(R.id.turn_layout);
 		
 		
@@ -151,6 +155,9 @@ public class IndexScreen extends Activity {
 				break;
 			case R.id.turnon:
 				enableLocationSettings();
+			case R.id.emergency:
+				Intent intent = new Intent(IndexScreen.this,Emergency.class);
+				startActivity(intent);
 			}
 		}
 	};
