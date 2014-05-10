@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nidl.gps.ShaktiLocation;
+import com.parse.ParseObject;
 
 public class SMSEmergency extends Activity {
 
@@ -258,6 +259,7 @@ public class SMSEmergency extends Activity {
 			// TODO Auto-generated method stub
 			SharedPreferences settings = getSharedPreferences("Prefences", 0);
 			Map<String,?> keys = settings.getAll();
+
 			switch (v.getId()) {
 			case R.id.button2CustomizeSend:
 				builder.append(sendMessage.getText().toString());
@@ -267,6 +269,7 @@ public class SMSEmergency extends Activity {
 				
 				if(sendMessage.getText().toString() != null && sendMessage.getText().toString().length() != 0){
 //					Toast.makeText(SMSEmergency.this, "Sending SMS", Toast.LENGTH_SHORT).show();
+					
 					sendSms.data(builder.toString(), location);
 				/*for(Map.Entry<String,?> entry : keys.entrySet()){
 					

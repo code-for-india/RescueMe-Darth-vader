@@ -52,6 +52,20 @@
         android:layout_height="wrap_content" 
         android:paddingTop="10dp">
     </ListView> -->
+    <ImageView android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+         android:layout_marginBottom="10dp"
+        android:src="@android:color/darker_gray"/>
+
+    <Button
+        android:id="@+id/profile_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/shakti_blue"
+        android:text="Your Profile"
+        android:textColor="@color/shakti_white" />
 
  		<ImageView android:id="@+id/line1"
         android:layout_width="match_parent"

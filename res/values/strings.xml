@@ -64,5 +64,7 @@ There is no way to detect the Power/Lock button press on all the android phones 
     <string name="title_activity_emergency_contacts">EmergencyContacts</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_emergency">Emergency</string>
+    <string name="title_activity_profile">Profile</string>
+    <string name="title_activity_help">HelpActivity</string>
 
 </resources>

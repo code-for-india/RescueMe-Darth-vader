@@ -16,19 +16,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nidl.gps.ShaktiLocation;
 import com.nidl.pservice.ScreenService;
+import com.parse.ParseObject;
 
 public class IndexScreen extends Activity {
 
-	Button toggle_slint;
-	Button battery_saving;
 	Button sms_emergency;
-	TextView quick_send;
+	ImageView quick_send;
 
 	Typeface typeface;
 	String SENT = "SMS_SENT";
@@ -62,37 +62,32 @@ public class IndexScreen extends Activity {
 		audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 		
 		typeface = Typeface.createFromAsset(getAssets(), "Roboto-Light.ttf");
-		sms_emergency = (Button) this.findViewById(R.id.sms_emergency);
+		sms_emergency = (Button) this.findViewById(R.id.emergency);
 		sms_emergency.setTypeface(typeface);
 		sms_emergency.setOnClickListener(listener);
 		
-		battery_saving = (Button) this.findViewById(R.id.battery_options);
-		battery_saving.setTypeface(typeface);
-		battery_saving.setOnClickListener(listener);
-		
-		toggle_slint = (Button) this.findViewById(R.id.toggle_slient);
-		toggle_slint.setTypeface(typeface);
-		if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT) 
-			toggle_slint.setText("Disable\nSilent\nMode");
-		else
-			toggle_slint.setText(" Enable\nSilent\nMode");
-		toggle_slint.setOnClickListener(listener);
+//		battery_saving = (Button) this.findViewById(R.id.battery_options);
+//		battery_saving.setTypeface(typeface);
+//		battery_saving.setOnClickListener(listener);
+//		
+//		toggle_slint = (Button) this.findViewById(R.id.toggle_slient);
+//		toggle_slint.setTypeface(typeface);
+//		if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT) 
+//			toggle_slint.setText("Disable\nSilent\nMode");
+//		else
+//			toggle_slint.setText(" Enable\nSilent\nMode");
+//		toggle_slint.setOnClickListener(listener);
 
-		quick_send = (Button) this.findViewById(R.id.quick_send);
-		quick_send.setTypeface(typeface);
+		quick_send = (ImageView) this.findViewById(R.id.quick_send);
 		quick_send.setOnClickListener(listener);
 		
-		TextView turn_text = (TextView)this.findViewById(R.id.turn_on);
-		turn_text.setTypeface(typeface);
-		
-		
-		Button turn_on = (Button) this.findViewById(R.id.turnon);
-		turn_on.setTypeface(typeface);
+
+		ImageView turn_on = (ImageView) this.findViewById(R.id.turn_on);
 		turn_on.setOnClickListener(listener);
 		
-		Button emergency = (Button) this.findViewById(R.id.emergency);
+		ImageView emergency = (ImageView) this.findViewById(R.id.sms_emergency);
 		emergency.setOnClickListener(listener);
-		emergency.setTypeface(typeface);
+//		emergency.setTypeface(typeface);
 		
 		turn_layout = (LinearLayout)this.findViewById(R.id.turn_layout);
 		
@@ -118,32 +113,32 @@ public class IndexScreen extends Activity {
 				startActivity(smsEmergency);
 				break;
 			
-			case R.id.battery_options:
-				
-				Log.d(IndexScreen.class.getCanonicalName(), "battery options");
-				Intent batteryIntent = new Intent();
-				batteryIntent.setAction("com.nidl.shakti.BATTERY_OPTIONS");
-				startActivity(batteryIntent);
-				break;
-			
-			case R.id.toggle_slient:
-
-				Log.d(IndexScreen.class.getCanonicalName(), "Toggle slient");
-				if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT) {
-					audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-					Toast.makeText(IndexScreen.this, "Silent Mode Disabled",
-							Toast.LENGTH_SHORT).show();
-					toggle_slint.setText(" Enable\nSilent\nMode");
-
-				} else {
-					audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-					Toast.makeText(IndexScreen.this, "Silent Mode Enabled",
-							Toast.LENGTH_SHORT).show();
-					toggle_slint.setText("Disable\nSilent\nMode");
-
-				}
-				
-				break;
+//			case R.id.battery_options:
+//				
+//				Log.d(IndexScreen.class.getCanonicalName(), "battery options");
+//				Intent batteryIntent = new Intent();
+//				batteryIntent.setAction("com.nidl.shakti.BATTERY_OPTIONS");
+//				startActivity(batteryIntent);
+//				break;
+//			
+//			case R.id.toggle_slient:
+//
+//				Log.d(IndexScreen.class.getCanonicalName(), "Toggle slient");
+//				if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT) {
+//					audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+//					Toast.makeText(IndexScreen.this, "Silent Mode Disabled",
+//							Toast.LENGTH_SHORT).show();
+//					toggle_slint.setText(" Enable\nSilent\nMode");
+//
+//				} else {
+//					audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+//					Toast.makeText(IndexScreen.this, "Silent Mode Enabled",
+//							Toast.LENGTH_SHORT).show();
+//					toggle_slint.setText("Disable\nSilent\nMode");
+//
+//				}
+//				
+//				break;
 			case R.id.quick_send:
 				
 				if(mlocAddress == null)
@@ -153,7 +148,7 @@ public class IndexScreen extends Activity {
 //					Log.d(IndexScreen.class.getCanonicalName(), "maddress "+mlocAddress);
 				sendSms.data(mlocAddress, location);
 				break;
-			case R.id.turnon:
+			case R.id.turn_on:
 				enableLocationSettings();
 			case R.id.emergency:
 				Intent intent = new Intent(IndexScreen.this,Emergency.class);
@@ -233,6 +228,11 @@ public class IndexScreen extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
 		getMenuInflater().inflate(R.menu.splash_screen, menu);
+		if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT){
+			menu.findItem(R.id.item4).setTitle("Disable Silent Mode");
+		} else {
+			menu.findItem(R.id.item4).setTitle("Enable Silent Mode");
+		}
 		return true;
 	}
 
@@ -248,6 +248,28 @@ public class IndexScreen extends Activity {
 			Intent aboutIntent = new Intent();
 			aboutIntent.setAction("com.nidl.shakti.ABOUT_SHAKTI");
 			startActivity(aboutIntent);
+			break;
+		case R.id.item3:
+			Log.d(IndexScreen.class.getCanonicalName(), "battery options");
+			Intent batteryIntent = new Intent();
+			batteryIntent.setAction("com.nidl.shakti.BATTERY_OPTIONS");
+			startActivity(batteryIntent);
+			break;
+		case R.id.item4:
+			Log.d(IndexScreen.class.getCanonicalName(), "Toggle slient");
+			if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT) {
+				audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+				Toast.makeText(IndexScreen.this, "Silent Mode Disabled",
+						Toast.LENGTH_SHORT).show();
+				item.setTitle(" Enable\nSilent\nMode");
+
+			} else {
+				audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+				Toast.makeText(IndexScreen.this, "Silent Mode Enabled",
+						Toast.LENGTH_SHORT).show();
+				item.setTitle("Disable\nSilent\nMode");
+
+			}
 			break;
 		default:
 			break;
@@ -283,7 +305,7 @@ public class IndexScreen extends Activity {
 
 			switch (am.getRingerMode()) {
 			case AudioManager.RINGER_MODE_SILENT:
-				toggle_slint.setText("Disable\nSilent\nMode");
+//				toggle_slint.setText("Disable\nSilent\nMode");
 				Log.i("MyApp", "Silent mode");
 				break;
 			case AudioManager.RINGER_MODE_VIBRATE:
@@ -291,7 +313,7 @@ public class IndexScreen extends Activity {
 				Log.i("MyApp", "Vibrate mode");
 				break;
 			case AudioManager.RINGER_MODE_NORMAL:
-				toggle_slint.setText(" Enable\nSilent\nMode");
+//				toggle_slint.setText(" Enable\nSilent\nMode");
 				Log.i("MyApp", "Normal mode");
 				break;
 			}

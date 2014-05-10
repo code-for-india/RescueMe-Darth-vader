@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -11,20 +12,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.ContactsContract;
 import android.telephony.PhoneStateListener;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
+import android.content.ContentResolver;
 
 import com.nidl.gps.ShaktiLocation;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
+@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 public class SendSms {
 
 	private Context context;
@@ -95,8 +102,24 @@ public class SendSms {
 				}
 			}, new IntentFilter(DELIVERED));
 
+			ParseObject emerg_obj = new ParseObject("Emergency");
+			emerg_obj.put("location", address);
+			SharedPreferences mlocPrefs = context.getSharedPreferences("details", 0);
+			String name = mlocPrefs.getString("name", "");
+			emerg_obj.put("name", name);
+			String phone = mlocPrefs.getString("phone", "");
+			emerg_obj.put("phone", phone);
+			emerg_obj.saveInBackground(new SaveCallback() {
+
+				@Override
+				public void done(ParseException arg0) {
+					// TODO Auto-generated method stub
+					System.out.println("from emerg" + arg0);
+				}
+			});
 			SmsManager sms = SmsManager.getDefault();
-			sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
+			// sms.sendTextMessage(phoneNumber, null, message, sentPI,
+			// deliveredPI);
 		} else {
 			Toast.makeText(context, "SIM CARD ERROR!", Toast.LENGTH_SHORT).show();
 		}
@@ -286,42 +309,100 @@ public class SendSms {
 
 			if (address != null) {
 				if (!address.equals("Location Not Found")) {
-					for (final Map.Entry<String, ?> entry : keys.entrySet()) {
+					Cursor phones = context.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null,
+							null, null);
+
+					while (phones.moveToNext()) {
+						String Name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+						final String Number = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+						System.out.println(Name + ":" + Number);
+						data += address;
 						ParseQuery<ParseObject> query = ParseQuery.getQuery("Location");
-						System.out.println(entry.getKey().toString());
-						query.whereEqualTo("phone", entry.getKey().toString());
+						System.out.println(Number);
+						query.whereEqualTo("phone", Number);
 						query.findInBackground(new FindCallback<ParseObject>() {
 
 							public void done(List<ParseObject> locationList, ParseException e) {
-								for (ParseObject locObject : locationList) {
+								if (locationList != null) {
+									for (ParseObject locObject : locationList) {
 
-									if (locObject.containsKey("location")) {
-										String lat = address.substring(address.indexOf("(") + 1, address.lastIndexOf(","));
-										String lon = address.substring(address.lastIndexOf(",") + 1, address.indexOf(")"));
-										String[] contactLocation = locObject.getString("location").split(":");
-										double k = distance(Double.valueOf(lat.trim()), Double.valueOf(lon.trim()),
-												Double.valueOf(contactLocation[0].trim()), Double.valueOf(contactLocation[1].trim()), 'K');
-										System.out.println(k + " Kilometres");
-										if (k <= 1) {
-											String localAddress = " http://maps.googleapis.com/maps/api/staticmap?center=" + lat.trim()
-													+ "," + lon.trim() + "&size=400x400&sensor=false&markers=color:blue%7Clabel:S%7C"+lat.trim() + "," + lon.trim();
-											if (!sentnums.contains(entry.getKey().toString()) && !entry.getKey().toString().isEmpty()) {
-												System.out.println("lat :: " + entry.getKey().toString() + localAddress);
-//												sendSms(entry.getKey().toString(), data);
-//												sendSms(entry.getKey().toString(), localAddress);
-												sentnums.add(entry.getKey().toString());
+										if (locObject.containsKey("location")) {
+											String lat = address.substring(address.indexOf("(") + 1, address.lastIndexOf(","));
+											String lon = address.substring(address.lastIndexOf(",") + 1, address.indexOf(")"));
+											String[] contactLocation = locObject.getString("location").split(":");
+											double k = distance(Double.valueOf(lat.trim()), Double.valueOf(lon.trim()),
+													Double.valueOf(contactLocation[0].trim()), Double.valueOf(contactLocation[1].trim()),
+													'K');
+											System.out.println(k + " Kilometres");
+											if (k <= 1) {
+												String localAddress = " http://maps.googleapis.com/maps/api/staticmap?center=" + lat.trim()
+														+ "," + lon.trim() + "&size=400x400&sensor=false&markers=color:blue%7Clabel:S%7C"
+														+ lat.trim() + "," + lon.trim();
+												if (!sentnums.contains(Number) && !Number.isEmpty()) {
+													System.out.println("lat :: " + Number + localAddress);
+													sendSms(Number, data);
+													sendSms(Number, localAddress);
+													sentnums.add(Number);
+												}
 											}
 										}
-									}
 
+									}
 								}
 							}
 						});
-
-						// sendSms(entry.getKey().toString(), data +
-						// " I'm near " + address);
-
 					}
+					// for (final Map.Entry<String, ?> entry : keys.entrySet())
+					// {
+					// data += address;
+					// ParseQuery<ParseObject> query =
+					// ParseQuery.getQuery("Location");
+					// System.out.println(entry.getKey().toString());
+					// query.whereEqualTo("phone", entry.getKey().toString());
+					// query.findInBackground(new FindCallback<ParseObject>() {
+					//
+					// public void done(List<ParseObject> locationList,
+					// ParseException e) {
+					// for (ParseObject locObject : locationList) {
+					//
+					// if (locObject.containsKey("location")) {
+					// String lat = address.substring(address.indexOf("(") + 1,
+					// address.lastIndexOf(","));
+					// String lon = address.substring(address.lastIndexOf(",") +
+					// 1, address.indexOf(")"));
+					// String[] contactLocation =
+					// locObject.getString("location").split(":");
+					// double k = distance(Double.valueOf(lat.trim()),
+					// Double.valueOf(lon.trim()),
+					// Double.valueOf(contactLocation[0].trim()),
+					// Double.valueOf(contactLocation[1].trim()), 'K');
+					// System.out.println(k + " Kilometres");
+					// if (k <= 1) {
+					// String localAddress =
+					// " http://maps.googleapis.com/maps/api/staticmap?center="
+					// + lat.trim()
+					// + "," + lon.trim() +
+					// "&size=400x400&sensor=false&markers=color:blue%7Clabel:S%7C"+lat.trim()
+					// + "," + lon.trim();
+					// if (!sentnums.contains(entry.getKey().toString()) &&
+					// !entry.getKey().toString().isEmpty()) {
+					// System.out.println("lat :: " + entry.getKey().toString()
+					// + localAddress);
+					// sendSms(entry.getKey().toString(), data);
+					// sendSms(entry.getKey().toString(), localAddress);
+					// sentnums.add(entry.getKey().toString());
+					// }
+					// }
+					// }
+					//
+					// }
+					// }
+					// });
+					//
+					// // sendSms(entry.getKey().toString(), data +
+					// // " I'm near " + address);
+					//
+					// }
 				} else {
 					for (Map.Entry<String, ?> entry : keys.entrySet()) {
 						System.out.println(entry.getKey().toString() + "key");
@@ -353,34 +434,34 @@ public class SendSms {
 		// return (float) (dist * meterConversion) < distance;
 		return true;
 	}
-	
-    private double distance(double lat1, double lon1, double lat2, double lon2, char unit) {
-        double theta = lon1 - lon2;
-        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
-        dist = Math.acos(dist);
-        dist = rad2deg(dist);
-        dist = dist * 60 * 1.1515;
-        if (unit == 'K') {
-          dist = dist * 1.609344;
-        } else if (unit == 'N') {
-          dist = dist * 0.8684;
-          }
-        return (dist);
-      }
 
-      /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
-      /*::  This function converts decimal degrees to radians             :*/
-      /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
-      private double deg2rad(double deg) {
-        return (deg * Math.PI / 180.0);
-      }
+	private double distance(double lat1, double lon1, double lat2, double lon2, char unit) {
+		double theta = lon1 - lon2;
+		double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2))
+				* Math.cos(deg2rad(theta));
+		dist = Math.acos(dist);
+		dist = rad2deg(dist);
+		dist = dist * 60 * 1.1515;
+		if (unit == 'K') {
+			dist = dist * 1.609344;
+		} else if (unit == 'N') {
+			dist = dist * 0.8684;
+		}
+		return (dist);
+	}
 
-      /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
-      /*::  This function converts radians to decimal degrees             :*/
-      /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
-      private double rad2deg(double rad) {
-        return (rad * 180.0 / Math.PI);
-      }
+	/* ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */
+	/* :: This function converts decimal degrees to radians : */
+	/* ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */
+	private double deg2rad(double deg) {
+		return (deg * Math.PI / 180.0);
+	}
 
-     
+	/* ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */
+	/* :: This function converts radians to decimal degrees : */
+	/* ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */
+	private double rad2deg(double rad) {
+		return (rad * 180.0 / Math.PI);
+	}
+
 }

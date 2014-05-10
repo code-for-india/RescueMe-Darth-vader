@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -19,7 +20,7 @@ public class ShaktiPreference extends Activity {
 	ListView listView;
 	Typeface typeface;
 	Button quick_sms;
-	Button emergencyContact;
+	Button emergencyContact,profileButton;
 	CheckBox playSound;
 	SharedPreferences prefs;
 	public static boolean playFlag;
@@ -41,6 +42,9 @@ public class ShaktiPreference extends Activity {
 		emergencyContact = (Button)this.findViewById(R.id.emergency_contact);
 		emergencyContact.setTypeface(typeface);
 		emergencyContact.setOnClickListener(listener);
+		profileButton = (Button)this.findViewById(R.id.profile_button);
+		profileButton.setOnClickListener(listener);
+		profileButton.setTypeface(typeface);
 		playSound = (CheckBox) findViewById(R.id.checkBox_playsound);
 		playSound.setOnCheckedChangeListener(chkboxListener);
 		playSound.setChecked(prefs.getBoolean("isChecked", false));
@@ -77,7 +81,10 @@ public class ShaktiPreference extends Activity {
 				Intent intent = new Intent(ShaktiPreference.this, AddViews.class);
 				startActivity(intent);
 				break;
-
+			case R.id.profile_button:
+				Intent profile_intent=new Intent(ShaktiPreference.this,Profile.class);
+				startActivity(profile_intent);
+				break;
 			default:
 				break;
 			}

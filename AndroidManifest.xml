@@ -151,6 +151,14 @@
             android:name="com.nidl.shakti.Emergency"
             android:label="@string/title_activity_emergency" >
         </activity>
+        <activity
+            android:name="com.nidl.shakti.Profile"
+            android:label="@string/title_activity_profile" >
+        </activity>
+        <activity
+            android:name="com.nidl.shakti.HelpActivity"
+            android:label="@string/title_activity_help" >
+        </activity>
     </application>
 
 </manifest>

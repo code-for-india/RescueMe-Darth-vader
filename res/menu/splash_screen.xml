@@ -1,18 +1,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <!-- <item
+    <!--
+         <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="@string/action_settings"/> -->
-        
-        
-    <item android:id="@+id/item1"
-        android:title="Preferences"
-        android:orderInCategory="1"/>
-    
-    <item android:id="@+id/item2"
-        android:title="About Us"
-        android:orderInCategory="2"/>
+        android:title="@string/action_settings"/>
+    -->
+
+    <item
+        android:id="@+id/item1"
+        android:orderInCategory="3"
+        android:title="Preferences"/>
+    <item
+        android:id="@+id/item2"
+        android:orderInCategory="4"
+        android:title="About Us"/>
+    <item
+        android:id="@+id/item3"
+        android:orderInCategory="1"
+        android:title="Battery options"/>
+    <item
+        android:id="@+id/item4"
+        android:orderInCategory="2"
+        android:title="Enable Silent mode"/>
 
 </menu>
