@@ -23,7 +23,7 @@ public class SplashScreen extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		Parse.initialize(this, "N4vwmDfHn5z6HyehLrkEy6B0Mk2c8QYERpMV7TvL", "vqUVRQmhdOWdxILIv6R2iAUffC7mDL5l0OsjaTzk");
+		
 		setContentView(R.layout.activity_splash);
 
 		mThread = new Thread(mRunnable);
@@ -48,6 +48,7 @@ public class SplashScreen extends Activity {
 			} catch (InterruptedException ex) {
 				Log.e(SplashScreen.class.getCanonicalName(), "error occured", ex.fillInStackTrace());
 			} finally {
+				Parse.initialize(SplashScreen.this, "N4vwmDfHn5z6HyehLrkEy6B0Mk2c8QYERpMV7TvL", "vqUVRQmhdOWdxILIv6R2iAUffC7mDL5l0OsjaTzk");
 				Intent indexIntent = new Intent(SplashScreen.this, IndexScreen.class);
 				startActivity(indexIntent);
 				finish();

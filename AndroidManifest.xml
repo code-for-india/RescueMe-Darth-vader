@@ -14,27 +14,24 @@
         android:normalScreens="true"
         android:smallScreens="true" />
 
-    
-    <uses-feature 
-        android:name="android.hardware.wifi" 
-        android:required="false"/>
-    
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false" />
     <uses-feature
         android:name="android.hardware.location"
         android:required="false" />
     <uses-feature
         android:name="android.hardware.location.network"
         android:required="false" />
-    
-    <uses-feature 
-        android:name="android.hardware.telephony" 
+    <uses-feature
+        android:name="android.hardware.telephony"
         android:required="true" />
-    
-    <uses-feature android:name="android.hardware.location.GPS"
-        android:required="false"/>
-    
-    <uses-feature android:name="android.hardware.BLUETOOTH"
-        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.location.GPS"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.BLUETOOTH"
+        android:required="false" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -74,12 +71,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="IndexScreen"
+            android:name="com.nidl.shakti.IndexScreen"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="BatteryOptions"
+            android:name="com.nidl.shakti.BatteryOptions"
             android:label="@string/battery_saving"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
@@ -90,7 +87,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="SMSEmergency"
+            android:name="com.nidl.shakti.SMSEmergency"
             android:label="@string/sms_emergency"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -102,7 +99,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="AboutShakti"
+            android:name="com.nidl.shakti.AboutShakti"
             android:label="@string/app_name"
             android:launchMode="singleTask" >
             <intent-filter>
@@ -112,7 +109,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="ShaktiPreference"
+            android:name="com.nidl.shakti.ShaktiPreference"
             android:label="I\&apos;m Shakti Preferences"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
@@ -122,29 +119,38 @@
         </service>
 
         <activity
-            android:name="AddViews"
+            android:name="com.nidl.shakti.AddViews"
             android:label="Add Emergency Contacts"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Dialog" >
         </activity>
         <activity
-            android:name="QuickSend"
+            android:name="com.nidl.shakti.QuickSend"
             android:label="@string/emergency_text"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Dialog" >
         </activity>
 
-        <receiver android:name="PhonestateReceiver" >
+        <receiver android:name="com.nidl.shakti.PhonestateReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".BootCompletedIntentReceiver" >
+        <receiver android:name="com.nidl.shakti.BootCompletedIntentReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name="com.nidl.shakti.EmergencyContacts"
+            android:label="@string/title_activity_emergency_contacts" >
+        </activity>
+        <activity
+            android:name="com.nidl.shakti.Emergency"
+            android:label="@string/title_activity_emergency" >
+        </activity>
     </application>
 
 </manifest>

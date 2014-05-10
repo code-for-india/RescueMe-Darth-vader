@@ -1,5 +1,6 @@
 package com.nidl.shakti;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +30,7 @@ public class SendSms {
 	private Context context;
 	static SendSms sendSms;
 	private boolean smsconfirmation;
+	private String google_key = "AIzaSyC-bdOlqg1mefy0759MKurJemag6hKWBMU";
 
 	private SendSms(Context context) {
 		this.context = context;
@@ -38,9 +40,8 @@ public class SendSms {
 		this.address = address;
 		sent = false;
 		smsconfirmation = false;
-		((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE))
-				.listen(phoneListener,
-						PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
+		((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).listen(phoneListener,
+				PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
 	}
 
 	private void sendSms(String phoneNumber, String message) {
@@ -50,43 +51,29 @@ public class SendSms {
 			String SENT = "SMS_SENT";
 			String DELIVERED = "SMS_DELIVERED";
 
-			PendingIntent sentPI = PendingIntent.getBroadcast(context, 0,
-					new Intent(SENT), 0);
+			PendingIntent sentPI = PendingIntent.getBroadcast(context, 0, new Intent(SENT), 0);
 
-			PendingIntent deliveredPI = PendingIntent.getBroadcast(context, 0,
-					new Intent(DELIVERED), 0);
+			PendingIntent deliveredPI = PendingIntent.getBroadcast(context, 0, new Intent(DELIVERED), 0);
 
 			context.registerReceiver(new BroadcastReceiver() {
 				@Override
 				public void onReceive(Context arg0, Intent arg1) {
 					switch (getResultCode()) {
 					case Activity.RESULT_OK:
-						Toast.makeText(arg0, "SMS Sent (Awaiting Delivery)",
-								Toast.LENGTH_SHORT).show();
+						Toast.makeText(arg0, "SMS Sent (Awaiting Delivery)", Toast.LENGTH_SHORT).show();
 						break;
 					case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-						Toast.makeText(
-								arg0,
-								"Generic failure! Please check network settings!",
-								Toast.LENGTH_SHORT).show();
+						Toast.makeText(arg0, "Generic failure! Please check network settings!", Toast.LENGTH_SHORT).show();
 						break;
 					case SmsManager.RESULT_ERROR_NO_SERVICE:
-						Toast.makeText(
-								arg0,
-								"No Signal! We will wait to acquire Signal and try again!",
-								Toast.LENGTH_SHORT).show();
-						Log.i("SendSms",
-								"No Signal! We will wait to acquire Signal and try again!");
+						Toast.makeText(arg0, "No Signal! We will wait to acquire Signal and try again!", Toast.LENGTH_SHORT).show();
+						Log.i("SendSms", "No Signal! We will wait to acquire Signal and try again!");
 						break;
 					case SmsManager.RESULT_ERROR_NULL_PDU:
-						Toast.makeText(arg0, "Null PDU", Toast.LENGTH_SHORT)
-								.show();
+						Toast.makeText(arg0, "Null PDU", Toast.LENGTH_SHORT).show();
 						break;
 					case SmsManager.RESULT_ERROR_RADIO_OFF:
-						Toast.makeText(
-								arg0,
-								"No Signal! We will wait to acquire Signal and try again!",
-								Toast.LENGTH_SHORT).show();
+						Toast.makeText(arg0, "No Signal! We will wait to acquire Signal and try again!", Toast.LENGTH_SHORT).show();
 						break;
 					}
 				}
@@ -98,13 +85,11 @@ public class SendSms {
 				public void onReceive(Context arg0, Intent arg1) {
 					switch (getResultCode()) {
 					case Activity.RESULT_OK:
-						Toast.makeText(arg0, "SMS was delivered!",
-								Toast.LENGTH_SHORT).show();
+						Toast.makeText(arg0, "SMS was delivered!", Toast.LENGTH_SHORT).show();
 						smsconfirmation = true;
 						break;
 					case Activity.RESULT_CANCELED:
-						Toast.makeText(arg0, "SMS was not delivered!",
-								Toast.LENGTH_SHORT).show();
+						Toast.makeText(arg0, "SMS was not delivered!", Toast.LENGTH_SHORT).show();
 						break;
 					}
 				}
@@ -113,16 +98,14 @@ public class SendSms {
 			SmsManager sms = SmsManager.getDefault();
 			sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
 		} else {
-			Toast.makeText(context, "SIM CARD ERROR!", Toast.LENGTH_SHORT)
-					.show();
+			Toast.makeText(context, "SIM CARD ERROR!", Toast.LENGTH_SHORT).show();
 		}
 	}
 
 	private static final String TAG = "SENDSMS";
 
 	private int isSIMExists() {
-		TelephonyManager telMgr = (TelephonyManager) context
-				.getSystemService(Context.TELEPHONY_SERVICE);
+		TelephonyManager telMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		int simState = telMgr.getSimState();
 		switch (simState) {
 		case TelephonyManager.SIM_STATE_ABSENT:
@@ -230,8 +213,7 @@ public class SendSms {
 			location.onShaktiStart();
 			location.shaktiSetup();
 
-			if (address != null
-					&& !address.equals(sendSms.readStoreLocationValue())) {
+			if (address != null && !address.equals(sendSms.readStoreLocationValue())) {
 				deletelocFile();
 				storeLocationPrefs(System.currentTimeMillis(), address);
 				isSendSms(address);
@@ -272,13 +254,11 @@ public class SendSms {
 	private PhoneStateListener phoneListener = new PhoneStateListener() {
 
 		@Override
-		public void onSignalStrengthsChanged(
-				android.telephony.SignalStrength signalStrength) {
+		public void onSignalStrengthsChanged(android.telephony.SignalStrength signalStrength) {
 			super.onSignalStrengthsChanged(signalStrength);
 			sStrength = signalStrength.getGsmSignalStrength();
 
-			if ((signalStrength.getGsmSignalStrength() != 0 || signalStrength
-					.getGsmSignalStrength() != 99) && sent == false) {
+			if ((signalStrength.getGsmSignalStrength() != 0 || signalStrength.getGsmSignalStrength() != 99) && sent == false) {
 
 				signalGood(address);
 				sent = true;
@@ -286,23 +266,19 @@ public class SendSms {
 
 		};
 	};
+	private String data;
 
-	private void signalGood(String address) {
-		SharedPreferences settings = context.getSharedPreferences("Prefences",
-				0);
-
-		SharedPreferences quciksend = context.getSharedPreferences("quicksend",
-				0);
-		String data = quciksend.getString("quick_send", null);
+	private void signalGood(final String address) {
+		SharedPreferences settings = context.getSharedPreferences("Prefences", 0);
+		final HashSet<String> sentnums = new HashSet<String>();
+		SharedPreferences quciksend = context.getSharedPreferences("quicksend", 0);
+		data = quciksend.getString("quick_send", null);
 		if (data == null)
-			data = "I need help! Rush to me, call my family!";
+			data = "I need help!Call my family!";
 
 		Map<String, ?> keys = settings.getAll();
 		if (keys.size() == 0) {
-			Toast.makeText(
-					context,
-					"Please set the Emergency Contact Number in the Preferences",
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "Please set the Emergency Contact Number in the Preferences", Toast.LENGTH_SHORT).show();
 		} else {
 			Log.i("Send sms ", "my signal strength" + sStrength);
 
@@ -310,26 +286,46 @@ public class SendSms {
 
 			if (address != null) {
 				if (!address.equals("Location Not Found")) {
-					for (Map.Entry<String, ?> entry : keys.entrySet()) {
+					for (final Map.Entry<String, ?> entry : keys.entrySet()) {
 						ParseQuery<ParseObject> query = ParseQuery.getQuery("Location");
-						 query.whereEqualTo("phone", entry.getKey().toString());
-						 query.findInBackground(new FindCallback<ParseObject>() {
-							  public void done(List<ParseObject> commentList, ParseException e) {
-								  for(ParseObject object : commentList){
-									  System.out.println(object.getString("location") + " from parse");
-								  }
-							  }
-							});
+						System.out.println(entry.getKey().toString());
+						query.whereEqualTo("phone", entry.getKey().toString());
+						query.findInBackground(new FindCallback<ParseObject>() {
 
-						sendSms(entry.getKey().toString(), data + " I'm near "
-								+ address);
+							public void done(List<ParseObject> locationList, ParseException e) {
+								for (ParseObject locObject : locationList) {
+
+									if (locObject.containsKey("location")) {
+										String lat = address.substring(address.indexOf("(") + 1, address.lastIndexOf(","));
+										String lon = address.substring(address.lastIndexOf(",") + 1, address.indexOf(")"));
+										String[] contactLocation = locObject.getString("location").split(":");
+										double k = distance(Double.valueOf(lat.trim()), Double.valueOf(lon.trim()),
+												Double.valueOf(contactLocation[0].trim()), Double.valueOf(contactLocation[1].trim()), 'K');
+										System.out.println(k + " Kilometres");
+										if (k <= 1) {
+											String localAddress = " http://maps.googleapis.com/maps/api/staticmap?center=" + lat.trim()
+													+ "," + lon.trim() + "&size=400x400&sensor=false&markers=color:blue%7Clabel:S%7C"+lat.trim() + "," + lon.trim();
+											if (!sentnums.contains(entry.getKey().toString()) && !entry.getKey().toString().isEmpty()) {
+												System.out.println("lat :: " + entry.getKey().toString() + localAddress);
+//												sendSms(entry.getKey().toString(), data);
+//												sendSms(entry.getKey().toString(), localAddress);
+												sentnums.add(entry.getKey().toString());
+											}
+										}
+									}
+
+								}
+							}
+						});
+
+						// sendSms(entry.getKey().toString(), data +
+						// " I'm near " + address);
 
 					}
 				} else {
 					for (Map.Entry<String, ?> entry : keys.entrySet()) {
 						System.out.println(entry.getKey().toString() + "key");
 						sendSms(entry.getKey().toString(), data);
-
 					}
 
 				}
@@ -343,4 +339,48 @@ public class SendSms {
 		}
 	}
 
+	public static boolean distFrom(float lat1, float lng1, float lat2, float lng2, int distance) {
+		double earthRadius = 3958.75;
+		double dLat = Math.toRadians(lat2 - lat1);
+		double dLng = Math.toRadians(lng2 - lng1);
+		double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+				* Math.sin(dLng / 2) * Math.sin(dLng / 2);
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		double dist = earthRadius * c;
+
+		int meterConversion = 1609;
+
+		// return (float) (dist * meterConversion) < distance;
+		return true;
+	}
+	
+    private double distance(double lat1, double lon1, double lat2, double lon2, char unit) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        if (unit == 'K') {
+          dist = dist * 1.609344;
+        } else if (unit == 'N') {
+          dist = dist * 0.8684;
+          }
+        return (dist);
+      }
+
+      /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+      /*::  This function converts decimal degrees to radians             :*/
+      /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+      private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+      }
+
+      /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+      /*::  This function converts radians to decimal degrees             :*/
+      /*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+      private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
+      }
+
+     
 }

@@ -207,6 +207,7 @@ public class ShaktiLocation {
 		TelephonyManager tMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		String mPhoneNumber = tMgr.getLine1Number();
 		locationObject.put("location", location.getLatitude() + ":" + location.getLongitude());
+		System.out.println("num : " + mPhoneNumber);
 		locationObject.put("phone", mPhoneNumber);
 		locationObject.saveInBackground();
 		// Bypass reverse-geocoding only if the Geocoder service is available on
@@ -393,6 +394,8 @@ public class ShaktiLocation {
 		this.timeInmillis = timeInmillis;
 
 	}
+	
+	
 
 	Runnable mHandlerTask = new Runnable() {
 		@Override

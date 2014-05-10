@@ -33,8 +33,7 @@ If your GPS is turned on while your internet is off, your latitude and longitude
 If your Internet is on, the latitude and longitude from your mobile operator or from the GPS is translated into a street address.\n\n 
 Note - To activate sending Emergency SMS, press the power button quickly 5 times within 2 seconds. Alternatively, you can open up the application and click on the button that says \"Send Emergency SMS\"\n\n
 There is no way to detect the Power/Lock button press on all the android phones through services. We are using the Screen On/Off intents which are sent when you press the Power button, to count the number of times it is pressed.\n\n
- What this means is that anything which turns the screen on and off (like a Phone call), has the potential to trigger the SMS sending. We have written an exception for phone calls and are continuously adding more exceptions.\n\n If you come across any other way of triggering the SMS sending, please let us know so you can help us improve the application.\n
-</string>
+ What this means is that anything which turns the screen on and off (like a Phone call), has the potential to trigger the SMS sending. We have written an exception for phone calls and are continuously adding more exceptions.\n\n If you come across any other way of triggering the SMS sending, please let us know so you can help us improve the application.\n</string>
     <string name="cannot">Cannot</string>
     <string name="album_name">OmShakti</string>
     <string name="foreground_service_started">Service Active</string>
@@ -62,5 +61,8 @@ There is no way to detect the Power/Lock button press on all the android phones 
     <string name="emergency_contact">Add Emergency Contacts</string>
     <string name="emergency_text">Emergency Text!</string>
     <string name="version">1.8.9.0</string>
+    <string name="title_activity_emergency_contacts">EmergencyContacts</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_emergency">Emergency</string>
 
 </resources>
