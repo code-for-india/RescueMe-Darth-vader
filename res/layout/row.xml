@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/shakti_white"
+    android:orientation="horizontal" >
+
+    
+    <TextView
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:paddingLeft="5dp"
+        android:textColor="@color/shakti_black"
+        android:textSize="@dimen/chk_text" >
+        
+    </TextView>
+    <TextView
+        android:id="@+id/editText1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:singleLine="true"
+        android:gravity="center_vertical"
+        android:paddingLeft="5dp"
+        android:textSize="@dimen/chk_text"
+        android:textColor="@color/shakti_black"
+        android:layout_below="@+id/editText"
+         >
+        
+    </TextView>
+    
+    <Button
+        android:id="@+id/buttonDelete"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_height="42dp"
+        android:src="@drawable/content_remove" 
+        android:textColor="#FFFFFF"
+        android:background="#FF7700"
+		android:text=" Remove "
+		android:layout_alignParentRight="true"
+        android:onClick="onDeleteClicked"/>
+
+
+</RelativeLayout>

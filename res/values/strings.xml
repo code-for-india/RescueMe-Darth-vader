@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">I\'m Shakti</string>
+    <string name="action_settings">Settings</string>
+    <string name="report_incident">Report An Incident</string>
+    <string name="sms_emergency"> <!-- SMS And -->
+Emergency SMS</string>
+    <string name="sms_email">SMS/Email My Location</string>
+    <string name="track_loc">Tracking Location</string>
+    <string name="battery_saving">Battery Saver</string>
+    <string name="address">Address:</string>
+    <string name="enable_gps">Enable GPS</string>
+    <string name="enable_gps_dialog">GPS not enabled. Would you like to enable it?</string>
+    <string name="latlng">Lat/Long:</string>
+    <string name="unknown">--Unknown--</string>
+    <string name="not_support_gps">GPS not supported/enabled!</string>
+    <string name="not_support_network">Enable Location Access and Sources in Settings!.</string>
+    <string name="use_fine_provider">Fine-grain provider</string>
+    <string name="use_both_providers">Both providers</string>
+    <string name="location_incident">NOTE: Currently you need to be at the Location of Incident. In future updates you can set incident for any location.</string>
+    <string name="current_loc">CURRENT LOCATION NOT AVAILABLE</string>
+    <string name="lat_long_coordinates">Latitude &amp; Longitude Coordinates</string>
+    <string name="quick_send">Emergency SMS Options</string>
+    <string name="emergency_sms">Send Emergency SMS</string>
+    <string name="about_us_content">During an emergency, we don\'t get lot of time to think and sometimes it\'s difficult to think straight. It is however important that your loved ones be notified, and that the authorities are able to pinpoint your exact location.\n\n
+I\'m Shakti (IMS) is an initiative by Notion Ink to build tools to enhance safety for Women, Kids and generally everybody. IMS provides you with the fastest and simplest way to contact your nearest and dearest during emergencies.\n\n
+If you\'re in trouble and need to notify your emergency contacts, press your power button 5 times(within 2 seconds)!\n\n 
+All you have to do is set an(some) emergency contact(s) and your phone will send them an Emergency Text Message (SMS) with a preset message.\n\n
+Your location will always be a part of your Emergency SMS, whether or not your GPS or Internet is on.\n\n 
+If neither are turned on, the Emergency SMS will include your approximate latitude and longitude from your mobile operator network.\n\n 
+If your GPS is turned on while your internet is off, your latitude and longitude will be more refined.\n\n 
+If your Internet is on, the latitude and longitude from your mobile operator or from the GPS is translated into a street address.\n\n 
+Note - To activate sending Emergency SMS, press the power button quickly 5 times within 2 seconds. Alternatively, you can open up the application and click on the button that says \"Send Emergency SMS\"\n\n
+There is no way to detect the Power/Lock button press on all the android phones through services. We are using the Screen On/Off intents which are sent when you press the Power button, to count the number of times it is pressed.\n\n
+ What this means is that anything which turns the screen on and off (like a Phone call), has the potential to trigger the SMS sending. We have written an exception for phone calls and are continuously adding more exceptions.\n\n If you come across any other way of triggering the SMS sending, please let us know so you can help us improve the application.\n
+</string>
+    <string name="cannot">Cannot</string>
+    <string name="album_name">OmShakti</string>
+    <string name="foreground_service_started">Service Active</string>
+    <string name="quick_send_emergency">Quick Send Emergency SMS</string>
+    <string name="select_all">Select All</string>
+    <string name="system_location">Location Not Found</string>
+    <string name="low_battery">I\'m very low on battery.</string>
+    <string name="wait_here">Pick me up. I\'ll wait here.</string>
+    <string name="not_safe">Don\'t call back, not safe.</string>
+    <string name="hint">Write Text Here</string>
+    <string name="send">Tap to Send</string>
+    <string name="saver_options">Battery Saving Options</string>
+    <string name="note">NOTE: Selecting any of these options will turn OFF the service only if they are already ON or Enabled. Selecting these options WILL NOT turn them on.</string>
+    <string name="kill_selected">Go!</string>
+    <string name="wifi">Switch Off Wi-Fi</string>
+    <string name="cellular_data">Switch Off Cellular data (E/3G)</string>
+    <string name="bluetooth">Switch Off Bluetooth</string>
+    <string name="low_brightness">Optimize brightness</string>
+    <string name="kill_all">Kill background applications</string>
+    <string name="add_new_text">Add New</string>
+    <string name="button_delete_row_description">Delete</string>
+    <string name="prefs_option">Preferences Option</string>
+    <string name="call_myfamily">I need help! Rush to me, call my family! </string>
+    <string name="quick_sms">Edit the Emergency SMS Text</string>
+    <string name="emergency_contact">Add Emergency Contacts</string>
+    <string name="emergency_text">Emergency Text!</string>
+    <string name="version">1.8.9.0</string>
+
+</resources>
