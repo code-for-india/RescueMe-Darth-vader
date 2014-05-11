@@ -33,13 +33,11 @@
     
     <Button
         android:id="@+id/buttonDelete"
-        android:layout_width="wrap_content"
+        android:layout_width="32dp"
         android:layout_marginTop="5dp"
-        android:layout_height="42dp"
-        android:src="@drawable/content_remove" 
-        android:textColor="#FFFFFF"
-        android:background="#FF7700"
-		android:text=" Remove "
+        android:layout_height="32dp"
+        android:src="@drawable/wrong" 
+       android:background="@drawable/close"
 		android:layout_alignParentRight="true"
         android:onClick="onDeleteClicked"/>
 

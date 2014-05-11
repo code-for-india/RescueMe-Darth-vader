@@ -152,7 +152,9 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:gravity="center"
-                android:text="Send SMS" />
+                android:text="CREATE SMS" 
+                android:textSize="20dp"
+                android:layout_marginLeft="5dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -171,7 +173,8 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:gravity="center"
-                android:text="Create SMS" />
+                android:text="SEND SMS" 
+                android:textSize="20dp"/>
 
         </LinearLayout>
     </LinearLayout>
@@ -202,6 +205,21 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:text="Emergency Contacts" />
+        android:background="#FF6900"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        
+        android:text="NOTIFICATIONS" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/turn_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="LOCATION SERVICE" 
+        android:textSize="20dp"/>
 
 </RelativeLayout>
