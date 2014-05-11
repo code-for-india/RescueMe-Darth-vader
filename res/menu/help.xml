@@ -4,9 +4,9 @@
     tools:context="com.nidl.shakti.HelpActivity" >
 
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never"/>
+        android:id="@+id/refresh"
+		android:icon="@drawable/ic_refresh"
+        android:title="Refresh"
+       android:showAsAction="always|withText"/>
 
 </menu>

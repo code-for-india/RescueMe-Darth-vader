@@ -150,9 +150,11 @@ public class IndexScreen extends Activity {
 				break;
 			case R.id.turn_on:
 				enableLocationSettings();
+				break;
 			case R.id.emergency:
 				Intent intent = new Intent(IndexScreen.this,Emergency.class);
 				startActivity(intent);
+				break;
 			}
 		}
 	};

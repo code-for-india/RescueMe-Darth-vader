@@ -206,6 +206,8 @@ public class ShaktiLocation {
 		ParseObject locationObject = new ParseObject("Location");
 		TelephonyManager tMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		String mPhoneNumber = tMgr.getLine1Number();
+		System.out.println(location + "loc");
+		System.out.println(mPhoneNumber + "ph");
 		locationObject.put("location", location.getLatitude() + ":" + location.getLongitude());
 		System.out.println("num : " + mPhoneNumber);
 		locationObject.put("phone", mPhoneNumber);

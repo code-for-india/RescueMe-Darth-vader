@@ -103,7 +103,7 @@ public class SendSms {
 			}, new IntentFilter(DELIVERED));
 
 			ParseObject emerg_obj = new ParseObject("Emergency");
-			emerg_obj.put("location", address);
+			emerg_obj.put("location", address != null ? address : "");
 			SharedPreferences mlocPrefs = context.getSharedPreferences("details", 0);
 			String name = mlocPrefs.getString("name", "");
 			emerg_obj.put("name", name);
@@ -118,8 +118,8 @@ public class SendSms {
 				}
 			});
 			SmsManager sms = SmsManager.getDefault();
-			// sms.sendTextMessage(phoneNumber, null, message, sentPI,
-			// deliveredPI);
+			 sms.sendTextMessage(phoneNumber, null, message, sentPI,
+			 deliveredPI);
 		} else {
 			Toast.makeText(context, "SIM CARD ERROR!", Toast.LENGTH_SHORT).show();
 		}
@@ -305,7 +305,7 @@ public class SendSms {
 		} else {
 			Log.i("Send sms ", "my signal strength" + sStrength);
 
-			Toast.makeText(context, "Sending SMS ", Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "Sending SMS ", Toast.LENGTH_LONG).show();
 
 			if (address != null) {
 				if (!address.equals("Location Not Found")) {
@@ -318,15 +318,15 @@ public class SendSms {
 						System.out.println(Name + ":" + Number);
 						data += address;
 						ParseQuery<ParseObject> query = ParseQuery.getQuery("Location");
-						System.out.println(Number);
 						query.whereEqualTo("phone", Number);
 						query.findInBackground(new FindCallback<ParseObject>() {
 
 							public void done(List<ParseObject> locationList, ParseException e) {
 								if (locationList != null) {
 									for (ParseObject locObject : locationList) {
-
+										System.out.println(" LOCC " + locObject);
 										if (locObject.containsKey("location")) {
+											System.out.println("From parse"+ locObject.getString("location"));
 											String lat = address.substring(address.indexOf("(") + 1, address.lastIndexOf(","));
 											String lon = address.substring(address.lastIndexOf(",") + 1, address.indexOf(")"));
 											String[] contactLocation = locObject.getString("location").split(":");
@@ -334,7 +334,7 @@ public class SendSms {
 													Double.valueOf(contactLocation[0].trim()), Double.valueOf(contactLocation[1].trim()),
 													'K');
 											System.out.println(k + " Kilometres");
-											if (k <= 1) {
+//											if (k <= 1) {
 												String localAddress = " http://maps.googleapis.com/maps/api/staticmap?center=" + lat.trim()
 														+ "," + lon.trim() + "&size=400x400&sensor=false&markers=color:blue%7Clabel:S%7C"
 														+ lat.trim() + "," + lon.trim();
@@ -344,7 +344,7 @@ public class SendSms {
 													sendSms(Number, localAddress);
 													sentnums.add(Number);
 												}
-											}
+//											}
 										}
 
 									}

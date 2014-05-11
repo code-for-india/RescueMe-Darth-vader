@@ -44,7 +44,7 @@ public class Emergency extends Activity {
 	private String address;
 	private String Number;
 	private String Name;
-	private String distressNumber;
+	private String distressNumber,distressPerson;
 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
@@ -80,10 +80,13 @@ public class Emergency extends Activity {
 		textView.setTypeface(typeface);
 		while (phones.moveToNext()) {
 			Number = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+			Number  = Number.replaceAll(" ", "");
 			Name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+			System.out.println(Name + " :: " +Number + " :: " + numbers.contains(Number));
 			if(numbers.contains(Number)){
 				textView.setText("YOUR FRIEND " + Name.toUpperCase() + " \n NEEDS HELP !");
 				distressNumber = Number;
+				distressPerson = Name;
 			}
 		}
 		typeface = Typeface.createFromAsset(getAssets(), "Fonts/oswald.ttf");
@@ -100,6 +103,7 @@ public class Emergency extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(Emergency.this, HelpActivity.class);
 				intent.putExtra("number", distressNumber);
+				intent.putExtra("name", distressPerson);
 				intent.putExtra("address", address);
 				startActivity(intent);
 			}
@@ -118,7 +122,7 @@ public class Emergency extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.emergency, menu);
+//		getMenuInflater().inflate(R.menu.emergency, menu);
 		return true;
 	}
 

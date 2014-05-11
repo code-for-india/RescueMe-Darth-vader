@@ -6,6 +6,6 @@
 	<classpathentry kind="lib" path="libs/Parse-1.5.0.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/appcompat_v7"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/appcompat_v7_2"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
